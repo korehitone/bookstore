@@ -7,39 +7,61 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gr_tiga.bookstore.domain.repository.BookRepository;
 import com.gr_tiga.bookstore.domain.repository.BookViewRepository;
+import com.gr_tiga.bookstore.helper.exception.DataNotFoundException;
 import com.gr_tiga.bookstore.model.table.Book;
 import com.gr_tiga.bookstore.model.view.BookView;
 
 @Service
 @Transactional
 public class BookService {
-    
+
     private final BookRepository br;
     private final BookViewRepository bvr;
 
-    public BookService(BookRepository br, BookViewRepository bvr){
+    public BookService(BookRepository br, BookViewRepository bvr) {
         this.br = br;
         this.bvr = bvr;
     }
 
-    public List<BookView> getAll(){
+    public List<BookView> getAll() {
         return bvr.findAll();
     }
 
-    public Book getByUid(String uid){
-        return br.findByUid(uid);
+    public Book getByUid(String uid) {
+        return br.findByUid(uid)
+                .orElseThrow(() -> new DataNotFoundException("Book", uid));
     }
 
-    public List<BookView> getByCategory(String c){
+    public List<BookView> getByCategory(String c) {
         return bvr.findByCategoryName(c);
     }
 
-    public List<BookView> getByTitle(String t){
+    public List<BookView> getByTitle(String t) {
         return bvr.findByTitle(t);
     }
 
+    public Book insert(Book book) {
+        return br.save(book);
+    }
+
+    public Book update(String uid, Book book) {
+        Book oldBook = getByUid(uid);
+
+        oldBook.setCategoryId(book.getCategoryId());
+        oldBook.setTitle(book.getTitle());
+        oldBook.setAuthor(book.getAuthor());
+        oldBook.setPublisher(book.getPublisher());
+        oldBook.setReleaseDate(book.getReleaseDate());
+        oldBook.setSipnosis(book.getSipnosis());
+        oldBook.setImgUrl(book.getImgUrl());
+        oldBook.setPrice(book.getPrice());
+
+        return br.save(oldBook);
+        
+    }
+
     // public List<BookView> getByTitleAndCategory(String query, String category){
-    //     return bvr.findByTitleAndCategoryName(query, category);
+    // return bvr.findByTitleAndCategoryName(query, category);
     // }
-    
+
 }

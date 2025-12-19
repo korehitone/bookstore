@@ -46,6 +46,18 @@ public class BookController {
     // public List<BookView> searchWithCategory(@RequestParam String title, @RequestParam String category){
     //     return bs.getByTitleAndCategory(title, category);
     // }
+
+    @PostMapping
+    public Book create(@RequestBody Book book){
+        return bs.insert(book);
+    }
+
+    @PutMapping("/{uid}")
+    public Book update(@PathVariable String uid, @RequestBody Book book){
+        return bs.update(uid, book);
+    }
+
+    
     
     
 }

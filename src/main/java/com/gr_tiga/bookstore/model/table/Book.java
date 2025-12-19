@@ -1,6 +1,7 @@
 package com.gr_tiga.bookstore.model.table;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 
@@ -39,12 +40,25 @@ public class Book {
     @Column(nullable = false)
     private Integer price;
 
+    public Book(){}
 
+    public Book(Integer categoryId, String title, String author, String publisher, LocalDate releaseDate,
+            String sipnosis, String imgUrl, Integer price) {
+        this.uid = UUID.randomUUID().toString();
+        this.categoryId = categoryId;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.releaseDate = releaseDate;
+        this.sipnosis = sipnosis;
+        this.imgUrl = imgUrl;
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;
     }
-    
+
     public String getUid() {
         return uid;
     }
@@ -92,7 +106,7 @@ public class Book {
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
-    
+
     public String getSipnosis() {
         return sipnosis;
     }
