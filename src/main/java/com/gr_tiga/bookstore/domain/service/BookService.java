@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gr_tiga.bookstore.domain.repository.BookRepository;
 import com.gr_tiga.bookstore.domain.repository.BookViewRepository;
+import com.gr_tiga.bookstore.helper.exception.DataAlreadyExistsException;
 import com.gr_tiga.bookstore.helper.exception.DataNotFoundException;
 import com.gr_tiga.bookstore.model.table.Book;
 import com.gr_tiga.bookstore.model.view.BookView;
@@ -41,7 +42,13 @@ public class BookService {
     }
 
     public Book insert(Book book) {
-        return br.save(book);
+        if (br.existsByTitleAndAuthorAndPublisher(book.getTitle(), book.getAuthor(), book.getPublisher())) {
+
+            throw new DataAlreadyExistsException("Book", ("book with title " + book.getTitle() + ", author "
+                    + book.getAuthor() + ", publisher " + book.getPublisher() + " already exist"));
+        } else {
+            return br.save(book);
+        }
     }
 
     public Book update(String uid, Book book) {
@@ -60,8 +67,8 @@ public class BookService {
 
     }
 
-    public void delete(String uid){
-        if(!br.existsByUid(uid)) {
+    public void delete(String uid) {
+        if (!br.existsByUid(uid)) {
             throw new DataNotFoundException("Book", uid);
         } else {
             br.deleteByUid(uid);

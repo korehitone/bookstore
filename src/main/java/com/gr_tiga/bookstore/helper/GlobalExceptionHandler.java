@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.gr_tiga.bookstore.helper.exception.DataAlreadyExistsException;
 import com.gr_tiga.bookstore.helper.exception.DataNotFoundException;
 
 @ControllerAdvice
@@ -19,5 +20,15 @@ public class GlobalExceptionHandler {
                 ex.getResourceName(),
                 ex.getIdValue());
         return new ResponseEntity<>(er, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleResourceAlreadyExists(DataAlreadyExistsException ex) {
+        ErrorResponse er = new ErrorResponse(
+                "DATA_CONFLICT",
+                ex.getMessage(),
+                ex.getResourceName(),
+                null);
+        return new ResponseEntity<>(er, HttpStatus.CONFLICT);
     }
 }

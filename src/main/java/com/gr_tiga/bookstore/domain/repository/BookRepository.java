@@ -12,5 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     
     boolean existsByUid(String uid);
 
+    boolean existsByTitleAndAuthorAndPublisher(String title, String author, String publisher);
+
     void deleteByUid(String uid);
 }
