@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: bookstore
+
+  profiles:
+    active: local   # default kalau jalan dari IDE
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bookstore
+    username: bookuser
+    password: bookpassword
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
