@@ -9,4 +9,8 @@ import com.gr_tiga.bookstore.model.table.Book;
 public interface BookRepository extends JpaRepository<Book, Integer> {
     
     Optional<Book> findByUid(String uid);
+    
+    boolean existsByUid(String uid);
+
+    void deleteByUid(String uid);
 }

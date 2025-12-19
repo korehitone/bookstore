@@ -57,7 +57,9 @@ public class BookController {
         return bs.update(uid, book);
     }
 
-    
-    
+    @DeleteMapping("/{uid}")
+    public void delete(@PathVariable String uid){
+        bs.delete(uid);
+    }
     
 }

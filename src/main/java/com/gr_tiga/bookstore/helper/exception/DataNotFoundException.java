@@ -3,12 +3,12 @@ package com.gr_tiga.bookstore.helper.exception;
 public class DataNotFoundException extends RuntimeException {
 
     private final String resourceName;
-    private final String idValue;
+    private final String uidValue;
 
-    public DataNotFoundException(String resourceName, String idValue) {
-        super(resourceName + " with id " + idValue + " not found");
+    public DataNotFoundException(String resourceName, String uidValue) {
+        super(resourceName + " with uid " + uidValue + " not found");
         this.resourceName = resourceName;
-        this.idValue = idValue;
+        this.uidValue = uidValue;
     }
 
     public String getResourceName() {
@@ -16,6 +16,6 @@ public class DataNotFoundException extends RuntimeException {
     }
 
     public String getIdValue() {
-        return idValue;
+        return uidValue;
     }
 }

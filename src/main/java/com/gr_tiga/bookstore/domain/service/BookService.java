@@ -57,7 +57,15 @@ public class BookService {
         oldBook.setPrice(book.getPrice());
 
         return br.save(oldBook);
-        
+
+    }
+
+    public void delete(String uid){
+        if(!br.existsByUid(uid)) {
+            throw new DataNotFoundException("Book", uid);
+        } else {
+            br.deleteByUid(uid);
+        }
     }
 
     // public List<BookView> getByTitleAndCategory(String query, String category){
