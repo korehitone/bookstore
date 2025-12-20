@@ -17,10 +17,6 @@ public class AdminService {
     public AdminService(AdminRepository ar){
         this.ar = ar;
     }
-    
-    public Admin getAdmin(){
-        return ar.findAll().get(0);
-    }
 
     public Admin getById(Integer id){
         return ar.findById(id)

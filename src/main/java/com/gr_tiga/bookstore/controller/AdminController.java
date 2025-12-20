@@ -17,25 +17,23 @@ public class AdminController {
         this.as = as;
     }
 
-    @GetMapping
-    public Admin getAdminProfile(){
-        return as.getAdmin();
-    }
-
     @PostMapping
     public Admin createAdmin(@RequestBody Admin admin){
         return as.create(admin);
     }
 
-    @PutMapping
-    public Admin updateAdminProfile(@RequestBody Admin admin){
-        Admin existingAdmin = as.getAdmin();
-        return as.update(existingAdmin.getId(), admin);
+    @GetMapping("/{id}")
+    public Admin getAdminProfile(@PathVariable Integer id){
+        return as.getById(id);
     }
 
-    @DeleteMapping
-    public void deleteAdminAccount(){
-        Admin admin = as.getAdmin();
-            as.delete(admin.getId());
-        }
+    @PutMapping("/{id}")
+    public Admin updateAdminProfile(@PathVariable Integer id, @RequestBody Admin admin){
+        return as.update(id, admin);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAdminAccount(@PathVariable Integer id){
+        as.delete(id);
+    }
 }
