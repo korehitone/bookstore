@@ -1,12 +1,12 @@
 package com.gr_tiga.bookstore.domain.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gr_tiga.bookstore.domain.repository.AdminRepository;
 import com.gr_tiga.bookstore.model.table.Admin;
+
+// import java.util.List;
 
 @Service
 @Transactional
@@ -18,8 +18,8 @@ public class AdminService {
         this.ar = ar;
     }
     
-    public List<Admin> getAll(){
-        return ar.findAll();
+    public Admin getAdmin(){
+        return ar.findAll().get(0);
     }
 
     public Admin getById(Integer id){
@@ -35,6 +35,7 @@ public class AdminService {
         Admin admin = getById(id);
         admin.setUsername(adminDetails.getUsername());
         admin.setEmail(adminDetails.getEmail());
+        admin.setPassword(adminDetails.getPassword());
         return ar.save(admin);
     }
 
