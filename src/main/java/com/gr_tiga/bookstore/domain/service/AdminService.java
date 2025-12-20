@@ -29,9 +29,9 @@ public class AdminService {
 
     public Admin update(Integer id, Admin adminDetails){
         Admin admin = getById(id);
-        admin.setUsername(adminDetails.getUsername());
-        admin.setEmail(adminDetails.getEmail());
-        admin.setPassword(adminDetails.getPassword());
+        if (adminDetails.getUsername() != null) admin.setUsername(adminDetails.getUsername());
+        if (adminDetails.getEmail() != null) admin.setEmail(adminDetails.getEmail());
+        if (adminDetails.getPassword() != null) admin.setPassword(adminDetails.getPassword());
         return ar.save(admin);
     }
 
