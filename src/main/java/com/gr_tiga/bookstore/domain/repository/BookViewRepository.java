@@ -9,6 +9,6 @@ import com.gr_tiga.bookstore.model.view.BookView;
 public interface BookViewRepository extends JpaRepository<BookView, String> {
     
     List<BookView> findByCategoryName(String categoryName);
-    List<BookView> findByTitle(String title);
+    List<BookView> findByTitleContaining(String title);
     // List<BookView> findByTitleAndCategoryName(String title, String categoryName);
 }

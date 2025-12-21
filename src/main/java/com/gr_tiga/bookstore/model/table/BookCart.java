@@ -2,6 +2,9 @@ package com.gr_tiga.bookstore.model.table;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -21,13 +24,23 @@ public class BookCart {
     @Column(nullable = false)
     private Integer quantity = 1;
 
+    @CreationTimestamp
     @Column(name = "created_At", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_At")
     private LocalDateTime updatedAt;
 
 
+
+    public BookCart(){}
+
+    public BookCart(Integer cartId, Integer bookId, Integer quantity) {
+        this.cartId = cartId;
+        this.bookId = bookId;
+        this.quantity = quantity;
+    }
    
     public Integer getId() {
         return id;

@@ -38,7 +38,7 @@ public class BookService {
     }
 
     public List<BookView> getByTitle(String t) {
-        return bvr.findByTitle(t);
+        return bvr.findByTitleContaining(t);
     }
 
     public Book insert(Book book) {

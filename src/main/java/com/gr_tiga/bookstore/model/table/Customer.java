@@ -1,5 +1,10 @@
 package com.gr_tiga.bookstore.model.table;
 
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -19,12 +24,23 @@ public class Customer {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
     private String address;
 
 
+
+    public Customer(){}
+
+    public Customer(String username, String email, String password, String address) {
+        this.uid = UUID.randomUUID().toString();
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+    }
 
     public Integer getId() {
         return id;
