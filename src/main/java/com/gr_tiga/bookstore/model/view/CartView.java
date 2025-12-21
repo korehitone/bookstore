@@ -13,6 +13,9 @@ public class CartView {
 
     @Id
     @Column(nullable = false)
+    private Integer id;
+
+    @Column(nullable = false)
     private String uid;
 
     @Column(name = "customer_id", nullable = false)
@@ -22,6 +25,10 @@ public class CartView {
     private BigDecimal totalPrice;
 
 
+    
+    public Integer getId() {
+        return id;
+    }
     
     public String getUid() {
         return uid;

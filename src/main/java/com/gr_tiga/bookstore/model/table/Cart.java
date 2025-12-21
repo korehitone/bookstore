@@ -1,6 +1,10 @@
 package com.gr_tiga.bookstore.model.table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.*;
 
@@ -18,14 +22,22 @@ public class Cart {
     @Column(name = "customer_id", nullable = false)
     private Integer customerId;
 
+    @CreationTimestamp
     @Column(name = "created_At", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_At")
     private LocalDateTime updatedAt;
 
+    public Cart() {
+    }
 
-    
+    public Cart(Integer customerId) {
+        this.uid = UUID.randomUUID().toString();
+        this.customerId = customerId;
+    }
+
     public Integer getId() {
         return id;
     }
