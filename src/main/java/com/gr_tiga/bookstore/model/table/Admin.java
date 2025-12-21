@@ -1,6 +1,7 @@
 package com.gr_tiga.bookstore.model.table;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "admin")
@@ -39,6 +40,11 @@ public class Admin {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
