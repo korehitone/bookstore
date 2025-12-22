@@ -25,21 +25,38 @@ public class CartView {
     private BigDecimal totalPrice;
 
 
-    
+
+
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     public String getUid() {
         return uid;
     }
 
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+
     public Integer getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }

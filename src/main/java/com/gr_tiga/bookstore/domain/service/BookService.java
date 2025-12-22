@@ -1,7 +1,10 @@
 package com.gr_tiga.bookstore.domain.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +27,16 @@ public class BookService {
         this.bvr = bvr;
     }
 
-    public List<BookView> getAll() {
-        return bvr.findAll();
+    public List<BookView> getAll(Integer page, Integer size) {
+
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size >= 0) ? size : 25;
+
+        List<BookView> bv = new ArrayList<>(bvr.findAll(PageRequest.of(p, s)).getContent());
+
+        Collections.shuffle(bv);
+
+        return bv;
     }
 
     public Book getByUid(String uid) {
@@ -33,12 +44,20 @@ public class BookService {
                 .orElseThrow(() -> new DataNotFoundException("Book", uid));
     }
 
-    public List<BookView> getByCategory(String c) {
-        return bvr.findByCategoryName(c);
+    public List<BookView> getByCategory(String c, Integer page, Integer size) {
+
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size >= 0) ? size : 25;
+
+        return bvr.findByCategoryName(c, PageRequest.of(p, s)).getContent();
     }
 
-    public List<BookView> getByTitle(String t) {
-        return bvr.findByTitleContaining(t);
+    public List<BookView> getByTitle(String t, Integer page, Integer size) {
+
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size >= 0) ? size : 25;
+
+        return bvr.findByTitleContaining(t, PageRequest.of(p, s)).getContent();
     }
 
     public Book insert(Book book) {

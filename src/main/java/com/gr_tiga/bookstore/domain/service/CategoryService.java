@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gr_tiga.bookstore.domain.repository.CategoryRepository;
+import com.gr_tiga.bookstore.helper.exception.DataNotFoundException;
 import com.gr_tiga.bookstore.model.table.Category;
 
 @Service
@@ -24,7 +25,7 @@ public class CategoryService {
 
     public Category getById(Integer id){
         return cr.findById(id)
-            .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+            .orElseThrow(() -> new DataNotFoundException("Category", id.toString()));
     }
 
     public Category create(Category category){
