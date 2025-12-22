@@ -1,7 +1,9 @@
 package com.gr_tiga.bookstore.domain.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.gr_tiga.bookstore.domain.repository.BookCartRepository;
@@ -28,7 +30,8 @@ public class CartService {
     private final BookCartViewRepository bcvr;
     private final CustomerRepository cs;
 
-    public CartService(CartRepository cr, CartViewRepository cvr, BookCartRepository bcr, BookCartViewRepository bcvr, CustomerRepository cs) {
+    public CartService(CartRepository cr, CartViewRepository cvr, BookCartRepository bcr, BookCartViewRepository bcvr,
+            CustomerRepository cs) {
         this.cr = cr;
         this.cvr = cvr;
         this.bcr = bcr;
@@ -42,7 +45,6 @@ public class CartService {
     }
 
     public CartView findByCartView(Integer custId) {
-        cs.findById(custId).orElseThrow(() -> new DataNotFoundException("Customer", custId.toString()));
         return cvr.findByCustomerId(custId);
     }
 
@@ -50,7 +52,7 @@ public class CartService {
         return cr.findByCustomerId(custId);
     }
 
-    public Object find(String uid) {
+    public CartView find(String uid) {
         Customer c = cs.findByUid(uid).orElseThrow(() -> new DataNotFoundException("Customer", uid));
 
         CartView cv = findByCartView(c.getId());
@@ -59,23 +61,35 @@ public class CartService {
         if (cv != null) {
             return cv;
         } else {
-            return ca;
+            CartView cvn = new CartView();
+
+            cvn.setId(ca.getId());
+            cvn.setUid(ca.getUid());
+            cvn.setCustomerId(ca.getCustomerId());
+            cvn.setTotalPrice(new BigDecimal(0));
+
+            return cvn;
         }
     }
 
-    public List<BookCartView> getByCartId(String cartUid){
+    public List<BookCartView> getByCartId(String cartUid, Integer page, Integer size) {
+
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size >= 0) ? size : 25;
+
         Cart c = cr.findByUid(cartUid).orElseThrow(() -> new DataNotFoundException("Customer", cartUid));
-        return bcvr.findByCartId(c.getId());
+        return bcvr.findByCartId(c.getId(), PageRequest.of(p, s)).getContent();
     }
 
-    public BookCart insertItem(BookCart bookCart){
+    public BookCart insertItem(BookCart bookCart) {
         return bcr.save(bookCart);
     }
 
-    public BookCart updateItem(BookCart bookCart){
+    public BookCart updateItem(BookCart bookCart) {
         BookCart bc = bcr.findByCartIdAndBookId(bookCart.getCartId(), bookCart.getBookId());
-        if(bc == null){
-            throw new DataNotFoundException("BookCart", (bookCart.getCartId().toString() + " & " + bookCart.getBookId().toString()));
+        if (bc == null) {
+            throw new DataNotFoundException("BookCart",
+                    (bookCart.getCartId().toString() + " & " + bookCart.getBookId().toString()));
         } else {
             bc.setQuantity(bookCart.getQuantity());
             return bcr.save(bc);
@@ -86,7 +100,8 @@ public class CartService {
         if (!bcr.existsById(id)) {
             throw new DataNotFoundException("BookCart", id.toString());
         } else {
-            bcr.deleteById(id);;
+            bcr.deleteById(id);
+            ;
         }
     }
 
